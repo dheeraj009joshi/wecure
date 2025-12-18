@@ -1,0 +1,45 @@
+# Core
+fastapi
+uvicorn[standard]
+python-multipart
+
+# Database
+sqlalchemy
+alembic
+psycopg2-binary
+asyncpg
+
+# Authentication
+python-jose[cryptography]
+passlib[bcrypt]
+
+# Validation
+pydantic
+pydantic[email]
+email-validator
+
+# CORS
+python-dotenv
+
+# Caching
+redis
+
+# File Upload
+boto3
+Pillow
+
+# Payments
+razorpay
+
+# Email
+fastapi-mail
+jinja2
+
+# Testing
+pytest
+pytest-asyncio
+httpx
+
+# Other
+celery
+python-dateutil

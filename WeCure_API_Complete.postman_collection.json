@@ -1,0 +1,1312 @@
+{
+  "info": {
+    "name": "WeCure API - Complete Collection",
+    "description": "Complete Postman collection for WeCure FastAPI backend with new slot-based availability system",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/health",
+              "host": ["{{base_url}}"],
+              "path": ["health"]
+            }
+          }
+        },
+        {
+          "name": "Root",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/",
+              "host": ["{{base_url}}"],
+              "path": [""]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Signup - Patient",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"patient1@example.com\",\n  \"password\": \"Test1234!\",\n  \"full_name\": \"Test Patient\",\n  \"phone\": \"+1000000000\",\n  \"role\": \"patient\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}{{api_prefix}}/auth/signup",
+              "host": ["{{base_url}}"],
+              "path": ["{{api_prefix}}", "auth", "signup"]
+            }
+          }
+        },
+        {
+          "name": "Signup - Doctor",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"doctor1@example.com\",\n  \"password\": \"Test1234!\",\n  \"full_name\": \"Dr. Test Doctor\",\n  \"phone\": \"+1000000001\",\n  \"role\": \"doctor\",\n  \"specialization\": \"Cardiology\",\n  \"experience_years\": 5,\n  \"available_from\": \"09:00\",\n  \"available_to\": \"17:00\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}{{api_prefix}}/auth/signup",
+              "host": ["{{base_url}}"],
+              "path": ["{{api_prefix}}", "auth", "signup"]
+            }
+          }
+        },
+        {
+          "name": "Login - Patient",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"patient1@example.com\",\n  \"password\": \"Test1234!\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}{{api_prefix}}/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["{{api_prefix}}", "auth", "login"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const res = pm.response.json();",
+                  "if (res.access_token) {",
+                  "  pm.environment.set('patient_token', res.access_token);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Login - Doctor",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"doctor1@example.com\",\n  \"password\": \"Test1234!\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}{{api_prefix}}/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["{{api_prefix}}", "auth", "login"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const res = pm.response.json();",
+                  "if (res.access_token) {",
+                  "  pm.environment.set('doctor_token', res.access_token);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Me - Current User",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{patient_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}{{api_prefix}}/auth/me",
+              "host": ["{{base_url}}"],
+              "path": ["{{api_prefix}}", "auth", "me"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Patients",
+      "item": [
+        {
+          "name": "Get My Patient Profile",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{patient_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}{{api_prefix}}/patients/me",
+              "host": ["{{base_url}}"],
+              "path": ["{{api_prefix}}", "patients", "me"]
+            }
+          }
+        },
+        {
+          "name": "Update My Patient Profile",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{patient_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"full_name\": \"Updated Patient\",\n  \"phone\": \"+1000000003\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}{{api_prefix}}/patients/me",
+              "host": ["{{base_url}}"],
+              "path": ["{{api_prefix}}", "patients", "me"]
+            }
+          }
+        },
+        {
+          "name": "Get My Appointments (Patient)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{patient_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}{{api_prefix}}/patients/me/appointments",
+              "host": ["{{base_url}}"],
+              "path": ["{{api_prefix}}", "patients", "me", "appointments"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Doctors",
+      "item": [
+        {
+          "name": "Get My Doctor Profile",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{doctor_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}{{api_prefix}}/doctors/me",
+              "host": ["{{base_url}}"],
+              "path": ["{{api_prefix}}", "doctors", "me"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const res = pm.response.json();",
+                  "if (res.id) {",
+                  "  pm.environment.set('test_doctor_id', res.id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Update My Doctor Profile",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{doctor_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"full_name\": \"Updated Doctor\",\n  \"experience_years\": 7\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}{{api_prefix}}/doctors/me",
+              "host": ["{{base_url}}"],
+              "path": ["{{api_prefix}}", "doctors", "me"]
+            }
+          }
+        },
+        {
+          "name": "Get My Appointments (Doctor)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{doctor_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}{{api_prefix}}/doctors/me/appointments?skip=0&limit=20&status=pending",
+              "host": ["{{base_url}}"],
+              "path": ["{{api_prefix}}", "doctors", "me", "appointments"],
+              "query": [
+                {
+                  "key": "skip",
+                  "value": "0"
+                },
+                {
+                  "key": "limit",
+                  "value": "20"
+                },
+                {
+                  "key": "status",
+                  "value": "pending",
+                  "description": "Optional: pending, confirmed, completed, cancelled",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Get doctor's appointments with pagination and filters"
+          }
+        },
+        {
+          "name": "List Doctors (Public) - With Search & Filters",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}{{api_prefix}}/doctors?skip=0&limit=20&search=cardio&specialty=Cardiology&min_rating=4.0",
+              "host": ["{{base_url}}"],
+              "path": ["{{api_prefix}}", "doctors"],
+              "query": [
+                {
+                  "key": "skip",
+                  "value": "0"
+                },
+                {
+                  "key": "limit",
+                  "value": "20"
+                },
+                {
+                  "key": "search",
+                  "value": "cardio",
+                  "description": "Optional: search by name or clinic",
+                  "disabled": true
+                },
+                {
+                  "key": "specialty",
+                  "value": "Cardiology",
+                  "description": "Optional: filter by specialty",
+                  "disabled": true
+                },
+                {
+                  "key": "city",
+                  "value": "",
+                  "description": "Optional: filter by city",
+                  "disabled": true
+                },
+                {
+                  "key": "min_rating",
+                  "value": "4.0",
+                  "description": "Optional: minimum rating (0-5)",
+                  "disabled": true
+                },
+                {
+                  "key": "min_experience",
+                  "value": "",
+                  "description": "Optional: minimum years of experience",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "List doctors with search and filters (public endpoint)"
+          }
+        },
+        {
+          "name": "Get Doctor by ID (Public)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}{{api_prefix}}/doctors/{{test_doctor_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["{{api_prefix}}", "doctors", "{{test_doctor_id}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Availability (Slot System)",
+      "item": [
+        {
+          "name": "Get Availability (All Days)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{doctor_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}{{api_prefix}}/availability",
+              "host": ["{{base_url}}"],
+              "path": ["{{api_prefix}}", "availability"]
+            },
+            "description": "Get all availability with detailed slot status (available/booked/past)"
+          }
+        },
+        {
+          "name": "Set Availability - Monday (Single Range)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{doctor_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"day_of_week\": \"monday\",\n  \"is_available\": true,\n  \"time_ranges\": [\n    {\n      \"start_time\": \"09:00\",\n      \"end_time\": \"17:00\"\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}{{api_prefix}}/availability/set",
+              "host": ["{{base_url}}"],
+              "path": ["{{api_prefix}}", "availability", "set"]
+            },
+            "description": "Set Monday availability (9 AM to 5 PM) - creates 30-min slots automatically"
+          }
+        },
+        {
+          "name": "Set Availability - Tuesday (Multiple Ranges)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{doctor_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"day_of_week\": \"tuesday\",\n  \"is_available\": true,\n  \"time_ranges\": [\n    {\n      \"start_time\": \"09:00\",\n      \"end_time\": \"13:00\"\n    },\n    {\n      \"start_time\": \"15:00\",\n      \"end_time\": \"21:00\"\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}{{api_prefix}}/availability/set",
+              "host": ["{{base_url}}"],
+              "path": ["{{api_prefix}}", "availability", "set"]
+            },
+            "description": "Set Tuesday with break (9 AM-1 PM, then 3 PM-9 PM)"
+          }
+        },
+        {
+          "name": "Set Availability - Wednesday",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{doctor_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"day_of_week\": \"wednesday\",\n  \"is_available\": true,\n  \"time_ranges\": [\n    {\n      \"start_time\": \"09:00\",\n      \"end_time\": \"17:00\"\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}{{api_prefix}}/availability/set",
+              "host": ["{{base_url}}"],
+              "path": ["{{api_prefix}}", "availability", "set"]
+            }
+          }
+        },
+        {
+          "name": "Set Availability - Thursday",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{doctor_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"day_of_week\": \"thursday\",\n  \"is_available\": true,\n  \"time_ranges\": [\n    {\n      \"start_time\": \"09:00\",\n      \"end_time\": \"17:00\"\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}{{api_prefix}}/availability/set",
+              "host": ["{{base_url}}"],
+              "path": ["{{api_prefix}}", "availability", "set"]
+            }
+          }
+        },
+        {
+          "name": "Set Availability - Friday",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{doctor_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"day_of_week\": \"friday\",\n  \"is_available\": true,\n  \"time_ranges\": [\n    {\n      \"start_time\": \"09:00\",\n      \"end_time\": \"17:00\"\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}{{api_prefix}}/availability/set",
+              "host": ["{{base_url}}"],
+              "path": ["{{api_prefix}}", "availability", "set"]
+            }
+          }
+        },
+        {
+          "name": "Add Slot - Monday",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{doctor_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"start_time\": \"18:00\",\n  \"end_time\": \"19:00\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}{{api_prefix}}/availability/monday/add-slot",
+              "host": ["{{base_url}}"],
+              "path": ["{{api_prefix}}", "availability", "monday", "add-slot"]
+            },
+            "description": "Add individual slot(s) - creates 18:00-18:30 and 18:30-19:00"
+          }
+        },
+        {
+          "name": "Remove Slot - Monday",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{doctor_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"start_time\": \"18:00\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}{{api_prefix}}/availability/monday/remove-slot",
+              "host": ["{{base_url}}"],
+              "path": ["{{api_prefix}}", "availability", "monday", "remove-slot"]
+            },
+            "description": "Remove individual slot (cannot remove if booked)"
+          }
+        },
+        {
+          "name": "Delete Availability - Sunday",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{doctor_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}{{api_prefix}}/availability/sunday",
+              "host": ["{{base_url}}"],
+              "path": ["{{api_prefix}}", "availability", "sunday"]
+            },
+            "description": "Delete all availability for a day (cannot delete if any slots are booked)"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Appointments",
+      "item": [
+        {
+          "name": "List Appointments",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{patient_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}{{api_prefix}}/appointments?skip=0&limit=20&status=pending",
+              "host": ["{{base_url}}"],
+              "path": ["{{api_prefix}}", "appointments"],
+              "query": [
+                {
+                  "key": "skip",
+                  "value": "0"
+                },
+                {
+                  "key": "limit",
+                  "value": "20"
+                },
+                {
+                  "key": "status",
+                  "value": "pending",
+                  "description": "Optional: pending, confirmed, completed, cancelled"
+                },
+                {
+                  "key": "appointment_date",
+                  "value": "",
+                  "description": "Optional: YYYY-MM-DD",
+                  "disabled": true
+                },
+                {
+                  "key": "doctor_id",
+                  "value": "",
+                  "description": "Optional: filter by doctor",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "List appointments with filters and pagination"
+          }
+        },
+        {
+          "name": "Create Appointment (Patient)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{patient_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"doctor_id\": \"{{test_doctor_id}}\",\n  \"appointment_date\": \"2025-12-10\",\n  \"appointment_time\": \"10:00\",\n  \"appointment_type\": \"video\",\n  \"chief_complaint\": \"General checkup\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}{{api_prefix}}/appointments",
+              "host": ["{{base_url}}"],
+              "path": ["{{api_prefix}}", "appointments"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const res = pm.response.json();",
+                  "if (res.id) {",
+                  "  pm.environment.set('test_appointment_id', res.id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get Appointment by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{patient_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}{{api_prefix}}/appointments/{{test_appointment_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["{{api_prefix}}", "appointments", "{{test_appointment_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Update Appointment",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{patient_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"completed\",\n  \"diagnosis\": \"Common cold\",\n  \"consultation_notes\": \"Patient advised rest\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}{{api_prefix}}/appointments/{{test_appointment_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["{{api_prefix}}", "appointments", "{{test_appointment_id}}"]
+            },
+            "description": "Update appointment (doctor can update diagnosis/notes, patient can cancel)"
+          }
+        },
+        {
+          "name": "Cancel Appointment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{patient_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cancellation_reason\": \"Schedule conflict\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}{{api_prefix}}/appointments/{{test_appointment_id}}/cancel",
+              "host": ["{{base_url}}"],
+              "path": ["{{api_prefix}}", "appointments", "{{test_appointment_id}}", "cancel"]
+            },
+            "description": "Cancel an appointment"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Prescriptions",
+      "item": [
+        {
+          "name": "List Prescriptions",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{patient_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}{{api_prefix}}/prescriptions?skip=0&limit=20",
+              "host": ["{{base_url}}"],
+              "path": ["{{api_prefix}}", "prescriptions"],
+              "query": [
+                {
+                  "key": "skip",
+                  "value": "0"
+                },
+                {
+                  "key": "limit",
+                  "value": "20"
+                },
+                {
+                  "key": "appointment_id",
+                  "value": "",
+                  "description": "Optional: filter by appointment",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "List prescriptions with pagination"
+          }
+        },
+        {
+          "name": "Get My Prescriptions",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{patient_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}{{api_prefix}}/prescriptions/me?skip=0&limit=20",
+              "host": ["{{base_url}}"],
+              "path": ["{{api_prefix}}", "prescriptions", "me"],
+              "query": [
+                {
+                  "key": "skip",
+                  "value": "0"
+                },
+                {
+                  "key": "limit",
+                  "value": "20"
+                }
+              ]
+            },
+            "description": "Get my prescriptions (patient or doctor)"
+          }
+        },
+        {
+          "name": "Create Prescription (Doctor only)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{doctor_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"appointment_id\": \"{{test_appointment_id}}\",\n  \"medicines\": [\n    {\n      \"name\": \"Paracetamol\",\n      \"dosage\": \"500mg\",\n      \"frequency\": \"2 times a day\",\n      \"duration\": \"5 days\"\n    }\n  ],\n  \"instructions\": \"Take after meals\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}{{api_prefix}}/prescriptions",
+              "host": ["{{base_url}}"],
+              "path": ["{{api_prefix}}", "prescriptions"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const res = pm.response.json();",
+                  "if (res.id) {",
+                  "  pm.environment.set('test_prescription_id', res.id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get Prescription by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{doctor_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}{{api_prefix}}/prescriptions/{{test_prescription_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["{{api_prefix}}", "prescriptions", "{{test_prescription_id}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Reviews",
+      "item": [
+        {
+          "name": "Get My Reviews",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{patient_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}{{api_prefix}}/reviews/me?skip=0&limit=20",
+              "host": ["{{base_url}}"],
+              "path": ["{{api_prefix}}", "reviews", "me"],
+              "query": [
+                {
+                  "key": "skip",
+                  "value": "0"
+                },
+                {
+                  "key": "limit",
+                  "value": "20"
+                }
+              ]
+            },
+            "description": "Get my reviews (patient) or reviews for my profile (doctor)"
+          }
+        },
+        {
+          "name": "Create Review (Patient only)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{patient_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"doctor_id\": \"{{test_doctor_id}}\",\n  \"appointment_id\": \"{{test_appointment_id}}\",\n  \"rating\": 5,\n  \"comment\": \"Excellent doctor\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}{{api_prefix}}/reviews",
+              "host": ["{{base_url}}"],
+              "path": ["{{api_prefix}}", "reviews"]
+            }
+          }
+        },
+        {
+          "name": "Get Reviews for Doctor",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}{{api_prefix}}/reviews/doctor/{{test_doctor_id}}?skip=0&limit=20",
+              "host": ["{{base_url}}"],
+              "path": ["{{api_prefix}}", "reviews", "doctor", "{{test_doctor_id}}"],
+              "query": [
+                {
+                  "key": "skip",
+                  "value": "0"
+                },
+                {
+                  "key": "limit",
+                  "value": "20"
+                }
+              ]
+            },
+            "description": "Get reviews for a specific doctor (public endpoint)"
+          }
+        },
+        {
+          "name": "Update Review",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{patient_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"rating\": 4,\n  \"comment\": \"Updated review comment\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}{{api_prefix}}/reviews/{{test_review_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["{{api_prefix}}", "reviews", "{{test_review_id}}"]
+            },
+            "description": "Update a review (only by the patient who created it)"
+          }
+        },
+        {
+          "name": "Delete Review",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{patient_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}{{api_prefix}}/reviews/{{test_review_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["{{api_prefix}}", "reviews", "{{test_review_id}}"]
+            },
+            "description": "Delete a review (only by the patient who created it)"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin",
+      "item": [
+        {
+          "name": "Dashboard Stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}{{api_prefix}}/admin/dashboard",
+              "host": ["{{base_url}}"],
+              "path": ["{{api_prefix}}", "admin", "dashboard"]
+            }
+          }
+        },
+        {
+          "name": "Get Pending Doctors",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}{{api_prefix}}/admin/doctors/pending",
+              "host": ["{{base_url}}"],
+              "path": ["{{api_prefix}}", "admin", "doctors", "pending"]
+            }
+          }
+        },
+        {
+          "name": "List All Patients",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}{{api_prefix}}/admin/patients?skip=0&limit=20",
+              "host": ["{{base_url}}"],
+              "path": ["{{api_prefix}}", "admin", "patients"],
+              "query": [
+                {
+                  "key": "skip",
+                  "value": "0"
+                },
+                {
+                  "key": "limit",
+                  "value": "20"
+                },
+                {
+                  "key": "search",
+                  "value": "",
+                  "description": "Optional: search by name",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "List all patients with pagination"
+          }
+        },
+        {
+          "name": "List All Doctors",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}{{api_prefix}}/admin/doctors?skip=0&limit=20&status=pending",
+              "host": ["{{base_url}}"],
+              "path": ["{{api_prefix}}", "admin", "doctors"],
+              "query": [
+                {
+                  "key": "skip",
+                  "value": "0"
+                },
+                {
+                  "key": "limit",
+                  "value": "20"
+                },
+                {
+                  "key": "status",
+                  "value": "pending",
+                  "description": "Optional: pending, active, suspended",
+                  "disabled": true
+                },
+                {
+                  "key": "search",
+                  "value": "",
+                  "description": "Optional: search by name",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "List all doctors with filters"
+          }
+        },
+        {
+          "name": "List All Appointments",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}{{api_prefix}}/admin/appointments?skip=0&limit=20",
+              "host": ["{{base_url}}"],
+              "path": ["{{api_prefix}}", "admin", "appointments"],
+              "query": [
+                {
+                  "key": "skip",
+                  "value": "0"
+                },
+                {
+                  "key": "limit",
+                  "value": "20"
+                },
+                {
+                  "key": "status",
+                  "value": "",
+                  "description": "Optional: pending, confirmed, completed, cancelled",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "List all appointments"
+          }
+        },
+        {
+          "name": "Update Patient (Admin)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"full_name\": \"Updated Patient Name\",\n  \"phone\": \"+1234567890\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}{{api_prefix}}/admin/patients/{{test_patient_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["{{api_prefix}}", "admin", "patients", "{{test_patient_id}}"]
+            },
+            "description": "Update patient profile (admin only)"
+          }
+        },
+        {
+          "name": "Update Doctor (Admin)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"full_name\": \"Updated Doctor Name\",\n  \"experience_years\": 10\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}{{api_prefix}}/admin/doctors/{{test_doctor_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["{{api_prefix}}", "admin", "doctors", "{{test_doctor_id}}"]
+            },
+            "description": "Update doctor profile (admin only)"
+          }
+        },
+        {
+          "name": "Verify Doctor",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}{{api_prefix}}/admin/doctors/{{test_doctor_id}}/verify",
+              "host": ["{{base_url}}"],
+              "path": ["{{api_prefix}}", "admin", "doctors", "{{test_doctor_id}}", "verify"]
+            },
+            "description": "Verify and activate a doctor"
+          }
+        },
+        {
+          "name": "Suspend Doctor",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}{{api_prefix}}/admin/doctors/{{test_doctor_id}}/suspend",
+              "host": ["{{base_url}}"],
+              "path": ["{{api_prefix}}", "admin", "doctors", "{{test_doctor_id}}", "suspend"]
+            },
+            "description": "Suspend a doctor"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Analytics",
+      "item": [
+        {
+          "name": "Doctor Overview (Analytics)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{doctor_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}{{api_prefix}}/analytics/doctor/overview",
+              "host": ["{{base_url}}"],
+              "path": ["{{api_prefix}}", "analytics", "doctor", "overview"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Utils",
+      "item": [
+        {
+          "name": "Fix Doctor Profile for Current User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{doctor_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}{{api_prefix}}/utils/fix-doctor-profile",
+              "host": ["{{base_url}}"],
+              "path": ["{{api_prefix}}", "utils", "fix-doctor-profile"]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000"
+    },
+    {
+      "key": "api_prefix",
+      "value": "/api/v1"
+    }
+  ]
+}
+

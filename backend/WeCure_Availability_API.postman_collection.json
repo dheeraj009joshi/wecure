@@ -1,0 +1,235 @@
+{
+  "info": {
+    "name": "WeCure Availability API - Slot System",
+    "description": "Postman collection for WeCure availability slot management system",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get Availability",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{doctor_token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}{{api_prefix}}/availability",
+          "host": ["{{base_url}}"],
+          "path": ["{{api_prefix}}", "availability"]
+        },
+        "description": "Get all availability with detailed slot status (available/booked/past)"
+      }
+    },
+    {
+      "name": "Set Availability - Single Range",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{doctor_token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"day_of_week\": \"monday\",\n  \"is_available\": true,\n  \"time_ranges\": [\n    {\n      \"start_time\": \"09:00\",\n      \"end_time\": \"17:00\"\n    }\n  ]\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}{{api_prefix}}/availability/set",
+          "host": ["{{base_url}}"],
+          "path": ["{{api_prefix}}", "availability", "set"]
+        },
+        "description": "Set availability for Monday (9 AM to 5 PM) - creates 30-min slots automatically"
+      }
+    },
+    {
+      "name": "Set Availability - Multiple Ranges",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{doctor_token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"day_of_week\": \"tuesday\",\n  \"is_available\": true,\n  \"time_ranges\": [\n    {\n      \"start_time\": \"09:00\",\n      \"end_time\": \"13:00\"\n    },\n    {\n      \"start_time\": \"15:00\",\n      \"end_time\": \"21:00\"\n    }\n  ]\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}{{api_prefix}}/availability/set",
+          "host": ["{{base_url}}"],
+          "path": ["{{api_prefix}}", "availability", "set"]
+        },
+        "description": "Set availability with break (9 AM-1 PM, then 3 PM-9 PM)"
+      }
+    },
+    {
+      "name": "Set Availability - Wednesday",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{doctor_token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"day_of_week\": \"wednesday\",\n  \"is_available\": true,\n  \"time_ranges\": [\n    {\n      \"start_time\": \"09:00\",\n      \"end_time\": \"17:00\"\n    }\n  ]\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}{{api_prefix}}/availability/set",
+          "host": ["{{base_url}}"],
+          "path": ["{{api_prefix}}", "availability", "set"]
+        }
+      }
+    },
+    {
+      "name": "Set Availability - Thursday",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{doctor_token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"day_of_week\": \"thursday\",\n  \"is_available\": true,\n  \"time_ranges\": [\n    {\n      \"start_time\": \"09:00\",\n      \"end_time\": \"17:00\"\n    }\n  ]\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}{{api_prefix}}/availability/set",
+          "host": ["{{base_url}}"],
+          "path": ["{{api_prefix}}", "availability", "set"]
+        }
+      }
+    },
+    {
+      "name": "Set Availability - Friday",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{doctor_token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"day_of_week\": \"friday\",\n  \"is_available\": true,\n  \"time_ranges\": [\n    {\n      \"start_time\": \"09:00\",\n      \"end_time\": \"17:00\"\n    }\n  ]\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}{{api_prefix}}/availability/set",
+          "host": ["{{base_url}}"],
+          "path": ["{{api_prefix}}", "availability", "set"]
+        }
+      }
+    },
+    {
+      "name": "Add Slot - Monday",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{doctor_token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"start_time\": \"18:00\",\n  \"end_time\": \"19:00\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}{{api_prefix}}/availability/monday/add-slot",
+          "host": ["{{base_url}}"],
+          "path": ["{{api_prefix}}", "availability", "monday", "add-slot"]
+        },
+        "description": "Add individual slot(s) - creates 18:00-18:30 and 18:30-19:00"
+      }
+    },
+    {
+      "name": "Remove Slot - Monday",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{doctor_token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"start_time\": \"18:00\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}{{api_prefix}}/availability/monday/remove-slot",
+          "host": ["{{base_url}}"],
+          "path": ["{{api_prefix}}", "availability", "monday", "remove-slot"]
+        },
+        "description": "Remove individual slot (cannot remove if booked)"
+      }
+    },
+    {
+      "name": "Delete Availability - Sunday",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{doctor_token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}{{api_prefix}}/availability/sunday",
+          "host": ["{{base_url}}"],
+          "path": ["{{api_prefix}}", "availability", "sunday"]
+        },
+        "description": "Delete all availability for a day (cannot delete if any slots are booked)"
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000"
+    },
+    {
+      "key": "api_prefix",
+      "value": "/api/v1"
+    }
+  ]
+}
+
