@@ -7,7 +7,7 @@ export function Footer() {
             <div className="container mx-auto px-4 py-12 md:py-16">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
                     <div className="space-y-4">
-                        <h3 className="text-2xl font-bold bg-gradient-to-r from-primary-blue to-primary-purple bg-clip-text text-transparent">WeCure</h3>
+                        <h3 className="text-2xl font-bold bg-gradient-to-r from-primary-blue to-primary-purple bg-clip-text text-transparent">Sahayak</h3>
                         <p className="text-muted-foreground text-sm">
                             Connecting patients with the best doctors for seamless healthcare experiences. Book appointments, consult online, and manage your health records.
                         </p>
@@ -69,7 +69,7 @@ export function Footer() {
                 </div>
 
                 <div className="mt-12 pt-8 border-t text-center text-sm text-muted-foreground">
-                    <p>&copy; {new Date().getFullYear()} WeCure. All rights reserved.</p>
+                    <p>&copy; {new Date().getFullYear()} Sahayak. All rights reserved.</p>
                 </div>
             </div>
         </footer>

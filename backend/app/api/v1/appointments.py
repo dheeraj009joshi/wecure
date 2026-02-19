@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, Query
+from pydantic import BaseModel
 from sqlalchemy.orm import Session, joinedload
 from sqlalchemy import and_, or_
 from typing import List, Optional
@@ -241,10 +242,13 @@ def update_appointment(
     return appointment
 
 
+class CancelRequest(BaseModel):
+    cancellation_reason: Optional[str] = None
+
 @router.post("/{appointment_id}/cancel", response_model=AppointmentResponse)
 def cancel_appointment(
     appointment_id: UUID,
-    cancellation_reason: Optional[str] = None,
+    cancel_request: CancelRequest = CancelRequest(),
     current_user: User = Depends(deps.get_current_active_user),
     db: Session = Depends(get_db)
 ):
@@ -270,8 +274,8 @@ def cancel_appointment(
     
     appointment.status = AppointmentStatus.CANCELLED
     appointment.cancelled_at = datetime.utcnow()
-    if cancellation_reason:
-        appointment.cancellation_reason = cancellation_reason
+    if cancel_request.cancellation_reason:
+        appointment.cancellation_reason = cancel_request.cancellation_reason
     
     db.add(appointment)
     db.commit()

@@ -23,7 +23,7 @@ app.include_router(api_router, prefix=settings.API_V1_STR)
 
 @app.get("/")
 def root():
-    return {"message": "Welcome to WeCure API"}
+    return {"message": "Welcome to Sahayak API"}
 
 @app.get("/health")
 def health_check():

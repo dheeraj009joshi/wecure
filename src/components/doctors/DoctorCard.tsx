@@ -55,7 +55,7 @@ export function DoctorCard({ doctor }: { doctor: Doctor }) {
                 </div>
                 <div>
                     <p className="text-muted-foreground text-xs mb-1">Clinic</p>
-                    <p className="font-medium">WeCure Health</p>
+                    <p className="font-medium">Sahayak Health</p>
                 </div>
                 <div>
                     <p className="text-muted-foreground text-xs mb-1">Consultation Fee</p>

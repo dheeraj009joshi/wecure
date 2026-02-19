@@ -32,7 +32,7 @@ export function Navbar() {
         {/* Logo */}
         <div className="mr-4 hidden md:flex">
           <Link href="/" className="mr-6 flex items-center space-x-2">
-            <span className="hidden font-bold sm:inline-block text-2xl bg-gradient-to-r from-primary-blue to-primary-purple bg-clip-text text-transparent">WeCure</span>
+            <span className="hidden font-bold sm:inline-block text-2xl bg-gradient-to-r from-primary-blue to-primary-purple bg-clip-text text-transparent">Sahayak</span>
           </Link>
           {/* Main Nav */}
           <nav className="flex items-center space-x-6 text-sm font-medium">
@@ -42,7 +42,6 @@ export function Navbar() {
               <>
                 <Link href="/patient/appointments" className="transition-colors hover:text-primary text-foreground/60">My Appointments</Link>
                 <Link href="/patient/history" className="transition-colors hover:text-primary text-foreground/60">Medical History</Link>
-                <Link href="/patient/messages" className="transition-colors hover:text-primary text-foreground/60">Messages</Link>
               </>
             )}
           </nav>
@@ -84,15 +83,15 @@ export function Navbar() {
                   <DropdownMenuTrigger asChild>
                     <Button variant="ghost" className="relative h-9 w-9 rounded-full border border-border">
                       <Avatar className="h-9 w-9">
-                        <AvatarImage src={user?.avatar} alt={user?.name} />
-                        <AvatarFallback>{user?.name?.[0] || "U"}</AvatarFallback>
+                        <AvatarImage src={user?.avatar} alt={user?.full_name || user?.email} />
+                        <AvatarFallback>{user?.full_name?.[0] || user?.email?.[0] || "U"}</AvatarFallback>
                       </Avatar>
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="w-56" align="end" forceMount>
                     <DropdownMenuLabel className="font-normal">
                       <div className="flex flex-col space-y-1">
-                        <p className="text-sm font-medium leading-none">{user?.name || "User"}</p>
+                        <p className="text-sm font-medium leading-none">{user?.full_name || user?.email || "User"}</p>
                         <p className="text-xs leading-none text-muted-foreground">{user?.email}</p>
                       </div>
                     </DropdownMenuLabel>

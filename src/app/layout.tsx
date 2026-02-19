@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "WeCure - Book Doctor Appointments",
+  title: "Sahayak - Book Doctor Appointments",
   description: "Connect with specialist doctors and book appointments instantly.",
 };
 

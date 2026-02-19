@@ -48,10 +48,10 @@ export function DoctorSidebar() {
             <div className="p-6 border-b">
                 <Link href="/doctor/dashboard" className="flex items-center space-x-2">
                     <div className="h-8 w-8 bg-gradient-to-r from-primary-blue to-primary-purple rounded-lg flex items-center justify-center">
-                        <span className="text-white font-bold">W</span>
+                        <span className="text-white font-bold">S</span>
                     </div>
                     <span className="font-bold text-xl bg-gradient-to-r from-primary-blue to-primary-purple bg-clip-text text-transparent">
-                        WeCure
+                        Sahayak
                     </span>
                 </Link>
                 <p className="text-xs text-muted-foreground mt-2">Doctor Portal</p>
@@ -115,10 +115,10 @@ export function DoctorSidebar() {
             <div className="lg:hidden fixed top-0 left-0 right-0 z-50 border-b bg-background p-4 flex items-center justify-between">
                 <div className="flex items-center gap-2">
                     <div className="h-8 w-8 bg-gradient-to-r from-primary-blue to-primary-purple rounded-lg flex items-center justify-center">
-                        <span className="text-white font-bold">W</span>
+                        <span className="text-white font-bold">S</span>
                     </div>
                     <span className="font-bold text-lg bg-gradient-to-r from-primary-blue to-primary-purple bg-clip-text text-transparent">
-                        WeCure
+                        Sahayak
                     </span>
                 </div>
                 <Sheet>

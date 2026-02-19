@@ -77,10 +77,10 @@ export default function LoginPage() {
                 <CardHeader className="space-y-1 text-center">
                     <div className="flex justify-center mb-4">
                         <div className="h-12 w-12 bg-gradient-to-r from-primary-blue to-primary-purple rounded-full flex items-center justify-center">
-                            <span className="text-white font-bold text-xl">W</span>
+                            <span className="text-white font-bold text-xl">S</span>
                         </div>
                     </div>
-                    <CardTitle className="text-2xl font-bold">Welcome to WeCure</CardTitle>
+                    <CardTitle className="text-2xl font-bold">Welcome to Sahayak</CardTitle>
                     <CardDescription>Sign in to your account</CardDescription>
                 </CardHeader>
 
