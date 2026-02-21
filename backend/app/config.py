@@ -1,13 +1,12 @@
-import os
 from pydantic_settings import BaseSettings
 from typing import Optional
 
 class Settings(BaseSettings):
-    PROJECT_NAME: str = "Sahayak API"
+    PROJECT_NAME: str = "WeCure API"
     API_V1_STR: str = "/api/v1"
     
     # Database
-    DATABASE_URL: str = "postgresql://wecure_user:wecure_pass@localhost:5432/wecure_db"
+    DATABASE_URL: str = "postgresql://mindsurvey:Dheeraj2006@mindsurvey.postgres.database.azure.com:5432/wecure?sslmode=require"
     
     # JWT
     SECRET_KEY: str = "your-super-secret-key-change-this-in-production"

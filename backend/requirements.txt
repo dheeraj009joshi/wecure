@@ -15,6 +15,7 @@ passlib[bcrypt]
 
 # Validation
 pydantic
+pydantic-settings
 pydantic[email]
 email-validator
 
